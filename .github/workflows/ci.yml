@@ -1,0 +1,43 @@
+name: CI / Production Quality Gate
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test-and-benchmark:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install flake8 pytest
+
+      - name: Run Test Suite
+        run: |
+          python -m unittest discover -s tests -p "test_*.py" -v
+
+      - name: Run Benchmarks (Incremental vs Full Batch)
+        run: |
+          python benchmark/run_benchmarks.py
+
+      - name: Verify Publication Plots Generation
+        run: |
+          python benchmark/generate_publication_plots.py
+          ls -lah docs/figures/
