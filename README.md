@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 title: Stream-Based Dynamic Community Monitor
 emoji: ⚡
@@ -250,3 +251,7 @@ Validates dynamic graph conservation, i-LPA, Incremental Louvain, Hawkes point-p
 
 ## 📄 License
 MIT License. Open for academic research and enterprise distributed systems portfolio review.
+=======
+# stream-community-monitor
+Stream-Based Dynamic Community Monitor
+>>>>>>> ebd759b57c88cd3a798eacadff0e57b541b85563
